@@ -81,7 +81,7 @@ class MyQuoteBotView(generic.View):
                     # are sent as attachments and must be handled accordingly. 
                     print message
 
-                    if ['message']['text']:  
+                    if message['text']:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
 
         return HttpResponse()    
