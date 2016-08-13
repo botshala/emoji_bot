@@ -44,7 +44,8 @@ def emoji_search(search_string):
         return " ".join(result_arr[:5])
 
 def post_facebook_message(fbid, recevied_message,image=False):
-
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
+    
     if image:
         response_msg3 = json.dumps(
                 {"recipient":{"id":fbid}, 
@@ -69,7 +70,6 @@ def post_facebook_message(fbid, recevied_message,image=False):
     response_text = recevied_message + ' :)'
     response_text = emoji_search(recevied_message.lower())
 
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":response_text}})
     
     response_msg3 = json.dumps(
