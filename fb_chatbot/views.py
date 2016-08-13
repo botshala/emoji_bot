@@ -62,7 +62,37 @@ def post_facebook_message(fbid, recevied_message):
                 }
          })
 
-    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg3)
+
+    response_msg4 = json.dumps(
+            {"recipient":{"id":fbid}, 
+                
+                "message":{
+                    "attachment":{
+                      "type":"template",
+                      "payload":{
+                        "template_type":"button",
+                        "text":"What do you want to do next?",
+                        "buttons":[
+                          {
+                            "type":"web_url",
+                            "url":"http://0nl.in",
+                            "title":"Show Website"
+                          },
+                          {
+                            "type":"postback",
+                            "title":"Start Chatting",
+                            "payload":"USER_DEFINED_PAYLOAD"
+                          }
+                        ]
+                      }
+                    }
+                  }
+
+            }
+    )
+
+
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg4)
     pprint(status.json())
 
 
@@ -93,6 +123,7 @@ class MyQuoteBotView(generic.View):
                     # are sent as attachments and must be handled accordingly. 
                     print message
                     print "%"*20
+                    
                     try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
