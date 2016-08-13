@@ -43,7 +43,29 @@ def emoji_search(search_string):
         random.shuffle(result_arr)
         return " ".join(result_arr[:5])
 
-def post_facebook_message(fbid, recevied_message):
+def post_facebook_message(fbid, recevied_message,image=False):
+
+    if image:
+        response_msg3 = json.dumps(
+                {"recipient":{"id":fbid}, 
+                    "message":{
+                        "attachment":{
+                            "type":"image",
+                            "payload":{
+                                "url":recevied_message
+                            }
+                        }
+                    }
+             })
+        status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg3)
+        return
+
+    if recevied_message == 'Start Chatting':
+        response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":'HELLO!!'}})
+        status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+        return
+
+
     response_text = recevied_message + ' :)'
     response_text = emoji_search(recevied_message.lower())
 
@@ -124,6 +146,9 @@ class MyQuoteBotView(generic.View):
                     print message
                     print "%"*20
                     
+                    try:
+                        post_facebook_message(message['sender']['id'], str(message['attachments'][0]['payload']['url']), image=True )
+
                     try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
