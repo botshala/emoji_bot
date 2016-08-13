@@ -148,7 +148,9 @@ class MyQuoteBotView(generic.View):
                     
                     try:
                         post_facebook_message(message['sender']['id'], str(message['attachments'][0]['payload']['url']), image=True )
-
+                    except:
+                        post_facebook_message(message['sender']['id'], 'oops 2')
+                        
                     try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
