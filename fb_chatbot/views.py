@@ -151,12 +151,14 @@ class MyQuoteBotView(generic.View):
                         print "NOW PRINTING THE USER IMAGE"
                         print str(message['attachments'][0]['payload']['url'])
                         post_facebook_message(message['sender']['id'], str(message['attachments'][0]['payload']['url']), image=True )
-                    except:
+                    except Exception as e:
+                        print e
                         post_facebook_message(message['sender']['id'], 'oops 2')
 
                     try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
-                    except:
+                    except Exception as e:
+                        print e
                         post_facebook_message(message['sender']['id'], 'oops')
 
         return HttpResponse()    
