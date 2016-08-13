@@ -50,7 +50,19 @@ def post_facebook_message(fbid, recevied_message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%PAGE_ACCESS_TOKEN
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":response_text}})
     
-    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    response_msg3 = json.dumps(
+            {"recipient":{"id":fbid}, 
+                "message":{
+                    "attachment":{
+                        "type":"image",
+                        "payload":{
+                            "url":"http://worldversus.com/img/ironman.jpg"
+                        }
+                    }
+                }
+         })
+
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg3)
     pprint(status.json())
 
 
@@ -81,9 +93,10 @@ class MyQuoteBotView(generic.View):
                     # are sent as attachments and must be handled accordingly. 
                     print message
                     print "%"*20
-                    print message['message']['text']
-                    if message['message']['text']:  
+                    try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
+                    except:
+                        post_facebook_message(message['sender']['id'], 'oops')
 
         return HttpResponse()    
 
@@ -96,7 +109,7 @@ def index(request):
     return HttpResponse(emoji_search(search_string))
 
 def test():
-    post_facebook_message('abhishek.sukumar.1','test message')
+    post_facebook_message('1366822393332584','test message')
 
 
 
