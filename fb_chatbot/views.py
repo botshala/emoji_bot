@@ -80,7 +80,7 @@ class MyQuoteBotView(generic.View):
                     # Assuming the sender only sends text. Non-text messages like stickers, audio, pictures
                     # are sent as attachments and must be handled accordingly. 
                     print message
-
+                    print "%"*20
                     if message['text']:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
 
