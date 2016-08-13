@@ -143,14 +143,17 @@ class MyQuoteBotView(generic.View):
                     # Print the message to the terminal
                     # Assuming the sender only sends text. Non-text messages like stickers, audio, pictures
                     # are sent as attachments and must be handled accordingly. 
+                    print "%"*20
                     print message
                     print "%"*20
                     
                     try:
+                        print "NOW PRINTING THE USER IMAGE"
+                        print str(message['attachments'][0]['payload']['url'])
                         post_facebook_message(message['sender']['id'], str(message['attachments'][0]['payload']['url']), image=True )
                     except:
                         post_facebook_message(message['sender']['id'], 'oops 2')
-                        
+
                     try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
@@ -167,7 +170,8 @@ def index(request):
     return HttpResponse(emoji_search(search_string))
 
 def test():
-    post_facebook_message('1366822393332584','test message')
+    pass
+    #post_facebook_message('1366822393332584','test message')
 
 
 
