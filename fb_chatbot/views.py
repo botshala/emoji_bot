@@ -81,8 +81,12 @@ class MyQuoteBotView(generic.View):
                     # Print the message to the terminal
                     # Assuming the sender only sends text. Non-text messages like stickers, audio, pictures
                     # are sent as attachments and must be handled accordingly. 
-                    if ['message']['text']:  
+                    try:  
                         post_facebook_message(message['sender']['id'], message['message']['text'])
+                    except Exception as e:
+                        print e
+                        post_facebook_message(message['sender']['id'], 'Please send a valid text for emoji search.')
+
 
         return HttpResponse()    
 
@@ -95,7 +99,7 @@ def index(request):
     return HttpResponse(emoji_search(search_string))
 
 def test():
-    post_facebook_message('abhishek.sukumar.1','test message')
+    post_facebook_message('100006427286608','test message')
 
 
 
